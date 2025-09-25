@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Netflix Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f7f7f7; margin: 30px; }
+        h1, h2 { color: #d81f26; }
+        .dashboard { display: flex; gap: 40px; }
+        .dashboard-section { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #ddd; padding: 24px; width: 400px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+        th, td { border: 1px solid #bbb; padding: 8px; text-align: left; }
+        th { background: #f2f2f2; }
+        .filter-form { margin-bottom: 30px; }
+        .filter-form label { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Netflix Data Dashboard</h1>
+    <form class="filter-form" method="get" action="/">
+        <label for="type">Filter by Content Type:</label>
+        <select name="type" id="type" onchange="this.form.submit()">
+            {% for ctype in content_types %}
+                <option value="{{ ctype }}" {% if ctype == selected_type %}selected{% endif %}>{{ ctype }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    <div class="dashboard">
+        <div class="dashboard-section">
+            <h2>Top 10 Directors{% if selected_type != 'All' %} ({{ selected_type }}){% endif %}</h2>
+            <table>
+                <tr>
+                    <th>Director</th>
+                    <th>Number of Titles</th>
+                </tr>
+                {% for director, count in top_directors.items() %}
+                <tr>
+                    <td>{{ director }}</td>
+                    <td>{{ count }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="dashboard-section">
+            <h2>Top 10 Countries{% if selected_type != 'All' %} ({{ selected_type }}){% endif %}</h2>
+            <table>
+                <tr>
+                    <th>Country</th>
+                    <th>Number of Titles</th>
+                </tr>
+                {% for country, count in top_countries.items() %}
+                <tr>
+                    <td>{{ country }}</td>
+                    <td>{{ count }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</body>
+</html>
